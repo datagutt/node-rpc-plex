@@ -9,7 +9,7 @@ const plex = new PlexAPI({
 	port: process.env.PLEX_PORT,
 	username: process.env.PLEX_USERNAME,
 	password: process.env.PLEX_PASSWORD,
-	token: process.env.PLEX_TOKEN,
+	token: process.env.PLEX_TOKEN
 });
 
 class RPCHandler extends EventEmitter {
@@ -52,6 +52,9 @@ class RPCHandler extends EventEmitter {
 								break;
 							case "episode":
 								user.meta = { type: media.type, show: media.grandparentTitle, season: media.parentIndex, episode: media.index, title: media.title, year: media.year };
+								break;
+							case "track":
+								user.meta = { type: media.type, title: media.title, artist: media.originalTitle || media.grandparentTitle, parentTitle: media.parentTitle};
 								break;
 						}
 						set.add(User.title);
@@ -97,6 +100,10 @@ const updateRPC = (rpc, time) => {
 			presence.largeImageText = `Watching a TV Show`;
 			presence.details = `${data.meta.show} (${data.meta.year})`;
 			presence.state = `S${data.meta.season} E${data.meta.episode} - ${data.meta.title}`;
+		} else if (data.meta.type != undefined && data.meta.type === "track") {
+			presence.largeImageText = `Listening to Music`;
+			presence.details = `${data.meta.title}`;
+			presence.state = `${data.meta.artist} - ${data.meta.parentTitle}`;
 		}
 
 		if (data.state === "paused") {
