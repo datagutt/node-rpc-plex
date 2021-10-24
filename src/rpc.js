@@ -9,7 +9,7 @@ let time;
 rpc.on("connected", () => {
 	console.log("Connected!");
 	setInterval(async () => {
-		if (await checkProcess("plex.exe")) {
+		//if (await checkProcess("plex.exe")) {
 			try {
 				rpc.runQuery();
 				time == undefined ? (time = Date.now()) : null;
@@ -21,9 +21,9 @@ rpc.on("connected", () => {
 			} catch (error) {
 				console.error(error);
 			}
-		} else {
-			rpc.clearActivity();
-		}
+		//} else {
+		//	rpc.clearActivity();
+		//}
 	}, 1000);
 });
 
