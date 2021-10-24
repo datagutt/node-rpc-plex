@@ -9,7 +9,8 @@ const plex = new PlexAPI({
 	port: process.env.PLEX_PORT,
 	username: process.env.PLEX_USERNAME,
 	password: process.env.PLEX_PASSWORD,
-	token: process.env.PLEX_TOKEN
+	token: process.env.PLEX_TOKEN,
+	https: process.env.PLEX_SECURE ? true : false
 });
 
 class RPCHandler extends EventEmitter {
